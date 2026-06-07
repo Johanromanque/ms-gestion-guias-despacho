@@ -28,11 +28,9 @@ jobs:
       - name: Preparar llave SSH
         run: |
           mkdir -p ~/.ssh
-          cat > ~/.ssh/id_rsa << 'SSHKEY'
-          ${{ secrets.EC2_SSH_KEY }}
-          SSHKEY
+          printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Desplegar en EC2
         run: |
