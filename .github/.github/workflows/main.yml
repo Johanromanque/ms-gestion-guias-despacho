@@ -37,6 +37,8 @@ jobs:
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.EC2_HOST }} << 'EOF'
             echo ${{ secrets.DOCKERHUB_TOKEN }} | sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ms-gestion-guias-despacho:latest
+            sudo docker stop ms-guias || true
+            sudo docker rm ms-guias || true
             sudo docker stop ms-gestion-guias-despacho || true
             sudo docker rm ms-gestion-guias-despacho || true
             sudo docker run -d --name ms-gestion-guias-despacho \
